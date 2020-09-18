@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../styles.css'
 
@@ -8,15 +8,14 @@ function Quiz() {
     const [category, setCategory] = useState("Linux")
     const [limit, setLimit] = useState("1")
     const [difficulty, setDifficulty] = useState("Easy")
-    
     const [totalCorrect, setTotalCorrect] = useState(0)
+
     let quizCheck = []
 
     let API_KEY = "OSnosGEkHpodofWjteoZNuz2BngCwENXjglNjA8F"
     let url = `https://quizapi.io/api/v1/questions?apiKey=${API_KEY}&category=${category}&difficulty=Easy&limit=${limit}`
 
     const getQuizData = () => {
-        console.log(url)
         axios(url)
         .then(res => {
             setQuizData(res.data)
@@ -42,6 +41,14 @@ function Quiz() {
         }
         getQuizData()
     }
+
+    useEffect(() => {
+        console.log("useEffect")
+        window.addEventListener("beforeunload", (e) => {
+            e.preventDefault()
+            e.returnValue = ""
+        })
+    }, [])
 
     return (
         <div>
